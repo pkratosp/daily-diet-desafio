@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MealsController } from './meals.controller';
+import { JwtService } from '@nestjs/jwt';
 
 // repository
 import { PrismaService } from '../lib/prisma.service';
@@ -23,6 +24,8 @@ import { UpdateMealUseCase } from './services/update-meal-use-case';
     ListAllMealsByUserUseCase,
     UpdateMealUseCase,
     CreateMealUseCase,
+
+    JwtService,
 
     PrismaService,
     PrismaMealsRepository
