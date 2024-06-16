@@ -12,6 +12,7 @@ import { DeleteMealUseCase } from './services/delete-meal-use-case';
 import { FindUniqueMealByUseCase } from './services/find-unique-meal-by-user-use-case';
 import { ListAllMealsByUserUseCase } from './services/list-all-meals-by-user-use-case';
 import { UpdateMealUseCase } from './services/update-meal-use-case';
+import { MetricsMealsUseCase } from './services/metrics-meals-use-case';
 
 @Module({
   controllers: [MealsController],
@@ -24,6 +25,7 @@ import { UpdateMealUseCase } from './services/update-meal-use-case';
     ListAllMealsByUserUseCase,
     UpdateMealUseCase,
     CreateMealUseCase,
+    MetricsMealsUseCase,
 
     JwtService,
 

@@ -11,10 +11,11 @@ import { UpdateMealUseCase } from './services/update-meal-use-case';
 import { DeleteMealUseCase } from './services/delete-meal-use-case';
 import { FindUniqueMealByUseCase } from './services/find-unique-meal-by-user-use-case';
 import { ListAllMealsByUserUseCase } from './services/list-all-meals-by-user-use-case';
+import { MetricsMealsUseCase } from './services/metrics-meals-use-case';
+
 import { ZodValidationSchemas } from '../utils/zod-validation-schema';
-
-
 import { createNewMeal, schemaUpdateMeal } from './meals.zod.schema';
+
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 @Controller('meals')
@@ -26,6 +27,7 @@ export class MealsController {
     private readonly deleteMealUseCase: DeleteMealUseCase,
     private readonly findUniqueMealByUseCase: FindUniqueMealByUseCase,
     private readonly listAllMealsByUserUseCase: ListAllMealsByUserUseCase,
+    private readonly metricsMealsUseCase: MetricsMealsUseCase
   ) {}
 
   @Post()
@@ -65,6 +67,27 @@ export class MealsController {
       const { userAuth } = req
 
       const list = await this.listAllMealsByUserUseCase.execute(userAuth.id)
+
+      return list
+
+    } catch (error) {
+      if(error instanceof Error) {
+        throw new InternalServerErrorException('Erro interno')
+      }
+
+      throw error
+    }
+  }
+
+  @Get('metrics')
+  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuardToken)
+  async metrics(@Request() req) {
+    try {
+
+      const { userAuth } = req
+
+      const list = await this.metricsMealsUseCase.execute(userAuth.id)
 
       return list
 

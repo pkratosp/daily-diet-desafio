@@ -10,4 +10,8 @@ export interface MealsRepository {
     findUnique(id: string, userId: string): Promise<Meals | null>
     findAll(userId: string): Promise<Array<Meals>>
 
+
+    count(userId: string): Promise<{ count: number }>
+    countIsOnTheDiet(userId: string, isOnTheDiet: boolean): Promise<{ count: number }>
+    bestSequenceOfMealsWithinTheDiet(userId: string): Promise<{ count: number }>
 }

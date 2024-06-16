@@ -213,6 +213,88 @@ describe('UserController (e2e)', () => {
     )
   })
 
+  it('/meals/metrics (GET)', async () => {
+    const username = `${randomUUID()}@gmail.com`
+    const createUser = await request(app.getHttpServer())
+      .post('/users')
+      .send({
+        "name": "jhon doe",
+        "email": username,
+        "password": "1234567"
+      })
+
+    const authSignIn = await request(app.getHttpServer())
+      .post('/auth')
+      .send({
+            "username": username,
+            "password": "1234567"
+      })
+
+    const userToken = authSignIn.body.token
+
+    const createMeals = await Promise.all([
+      request(app.getHttpServer())
+        .post('/meals')
+        .send({
+            "name":"nova refeição",
+            "description": "salada",
+            "isOnTheDiet": true
+        })
+        .set("Authorization", `Bearer ${userToken}`),
+
+        request(app.getHttpServer())
+        .post('/meals')
+        .send({
+            "name":"nova refeição",
+            "description": "salada",
+            "isOnTheDiet": true
+        })
+        .set("Authorization", `Bearer ${userToken}`),
+
+        request(app.getHttpServer())
+        .post('/meals')
+        .send({
+            "name":"nova refeição",
+            "description": "salada",
+            "isOnTheDiet": true
+        })
+        .set("Authorization", `Bearer ${userToken}`),
+
+        request(app.getHttpServer())
+        .post('/meals')
+        .send({
+            "name":"nova refeição",
+            "description": "podrao",
+            "isOnTheDiet": false
+        })
+        .set("Authorization", `Bearer ${userToken}`),
+    ])
+    
+
+
+    const metrics = await request(app.getHttpServer())
+      .get('/meals/metrics')
+      .set("Authorization", `Bearer ${userToken}`)
+      .expect(200)
+    
+    expect(metrics.body).toEqual(
+      expect.objectContaining({
+        "totalMeals": {
+          "count": 4
+        },
+        "totalMealsInTheDiet": {
+          "count": 3
+        },
+        "totalMealsNotTheDiet": {
+          "count": 1
+        },
+        "bestSequenceInTheDiet": {
+          "count": 3
+        }
+      })
+    )
+  })
+
   it('/meals (DELETE)', async () => {
     const username = `${randomUUID()}@gmail.com`
     const createUser = await request(app.getHttpServer())

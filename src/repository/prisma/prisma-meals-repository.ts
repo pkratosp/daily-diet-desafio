@@ -56,7 +56,8 @@ export class PrismaMealsRepository implements MealsRepository {
     async findAll(userId: string) {
         const listAll = await this.prismaService.meals.findMany({
             where: {
-                userId: userId
+                userId: userId,
+                deletedAt: null
             }
         })
 
@@ -67,11 +68,62 @@ export class PrismaMealsRepository implements MealsRepository {
         const find = await this.prismaService.meals.findUnique({
             where: {
                 id: id,
-                userId: userId
+                userId: userId,
+                deletedAt: null
             }
         })
 
         return find
+    }
+
+    async bestSequenceOfMealsWithinTheDiet(userId: string) {
+        const list = await this.prismaService.meals.findMany({
+            where: {
+                userId: userId,
+                deletedAt: null,
+            }
+        })
+
+        let bestSequenceInTheDiet: number = 0
+        
+        for (let init = 0; init < list.length; init++) {
+            if(list[init].isOnTheDiet === true) {
+                bestSequenceInTheDiet += 1
+            }else {
+                break
+            }
+        }
+
+        return {
+            count: bestSequenceInTheDiet
+        }
+    }
+
+    async count(userId: string) {
+        const count = await this.prismaService.meals.count({
+            where: {
+                userId: userId,
+                deletedAt: null,
+            }
+        })
+
+        return {
+            count: count
+        }
+    }
+
+    async countIsOnTheDiet(userId: string, isOnTheDiet: boolean) {
+        const count = await this.prismaService.meals.count({
+            where: {
+                userId: userId,
+                deletedAt: null,
+                isOnTheDiet: isOnTheDiet
+            }
+        })
+
+        return {
+            count: count
+        }
     }
 
 }
