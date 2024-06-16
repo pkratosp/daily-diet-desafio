@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
+import { env } from "../../lib/env";
 
 @Injectable()
 export class GenerateTokenUseCase {
@@ -14,7 +15,7 @@ export class GenerateTokenUseCase {
                 name
             },
             {
-                secret: process.env.SECRET_TOKEN,
+                secret: env.SECRET_TOKEN,
                 expiresIn: '24h'
             }
         )

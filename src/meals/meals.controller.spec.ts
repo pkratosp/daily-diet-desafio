@@ -11,6 +11,7 @@ import { DeleteMealUseCase } from './services/delete-meal-use-case';
 import { FindUniqueMealByUseCase } from './services/find-unique-meal-by-user-use-case';
 import { ListAllMealsByUserUseCase } from './services/list-all-meals-by-user-use-case';
 import { UpdateMealUseCase } from './services/update-meal-use-case';
+import { JwtService } from '@nestjs/jwt';
 
 describe('MealsController', () => {
   let controller: MealsController;
@@ -25,6 +26,8 @@ describe('MealsController', () => {
         ListAllMealsByUserUseCase,
         UpdateMealUseCase,
         CreateMealUseCase,
+
+        JwtService,
     
         PrismaService,
         PrismaMealsRepository
