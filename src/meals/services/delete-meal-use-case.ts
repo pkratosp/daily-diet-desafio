@@ -6,7 +6,7 @@ export class DeleteMealUseCase {
 
     constructor(private readonly prismaMealsRepository: PrismaMealsRepository) {}
 
-    async execute() {
-
+    async execute(id: string, userId: string) {
+        return await this.prismaMealsRepository.delete(id,userId)
     }
 }

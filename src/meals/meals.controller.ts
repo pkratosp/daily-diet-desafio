@@ -14,7 +14,7 @@ import { ListAllMealsByUserUseCase } from './services/list-all-meals-by-user-use
 import { ZodValidationSchemas } from '../utils/zod-validation-schema';
 
 
-import { createNewMeal } from './meals.zod.schema';
+import { createNewMeal, schemaUpdateMeal } from './meals.zod.schema';
 
 @Controller('meals')
 export class MealsController {
@@ -63,6 +63,9 @@ export class MealsController {
 
       const { userAuth } = req
 
+      const list = await this.listAllMealsByUserUseCase.execute(userAuth.id)
+
+      return list
 
     } catch (error) {
       if(error instanceof Error) {
@@ -80,6 +83,10 @@ export class MealsController {
     try {
 
       const { userAuth } = req
+
+      const findMeal = await this.findUniqueMealByUseCase.execute(id,userAuth.id)
+
+      return findMeal
       
     } catch (error) {
       if(error instanceof Error) {
@@ -93,11 +100,19 @@ export class MealsController {
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
   @UseGuards(AuthGuardToken)
+  @UsePipes(new ZodValidationSchemas(schemaUpdateMeal))
   async update(@Param('id') id: string, @Body() updateMealDto: UpdateMealDto, @Request() req) {
     try {
 
       const { userAuth } = req
+
+      const updateMeal = await this.updateMealUseCase.execute(id, userAuth.id, updateMealDto)
       
+
+      return {
+        updateMeal
+      }
+
     } catch (error) {
       if(error instanceof Error) {
         throw new InternalServerErrorException('Erro interno')
@@ -114,8 +129,15 @@ export class MealsController {
     try {
 
       const { userAuth } = req
+
+      const deleteMeal = await this.deleteMealUseCase.execute(id, userAuth.id)
+
+      return {
+        deleteMeal
+      }
       
     } catch (error) {
+      
       if(error instanceof Error) {
         throw new InternalServerErrorException('Erro interno')
       }

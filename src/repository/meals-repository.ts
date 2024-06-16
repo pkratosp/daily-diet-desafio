@@ -6,7 +6,7 @@ export interface MealsRepository {
 
     create(data: CreateMealDto): Promise<Meals | null>
     update(id: string, userId: string, data: UpdateMealDto): Promise<Meals | null>
-    delete(id: string): Promise<boolean>
+    delete(id: string, userId: string): Promise<boolean>
     findUnique(id: string, userId: string): Promise<Meals | null>
     findAll(userId: string): Promise<Array<Meals>>
 

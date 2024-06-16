@@ -32,13 +32,14 @@ export class PrismaMealsRepository implements MealsRepository {
         return updateMeal
     }
 
-    async delete(id: string) {
+    async delete(id: string, userId: string,) {
         const updateMeal = await this.prismaService.meals.update({
             data: {
                 deletedAt: new Date()
             },
             where: {
                 id: id,
+                userId: userId
             },
             select: {
                 id: true

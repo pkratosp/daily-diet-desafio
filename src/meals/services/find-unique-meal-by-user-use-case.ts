@@ -6,7 +6,7 @@ export class FindUniqueMealByUseCase {
     
     constructor(private readonly prismaMealsRepository: PrismaMealsRepository) {}
 
-    async execute() {
-        
+    async execute(id: string, userId: string) {
+        return await this.prismaMealsRepository.findUnique(id, userId)
     }
 }

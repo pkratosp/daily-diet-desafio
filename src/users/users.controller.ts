@@ -1,7 +1,7 @@
 import { Controller, Post, Body, UsePipes, InternalServerErrorException, ConflictException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateUserUseCase } from './services/create-user-use-case';
-import { ZodValidationSchemas } from 'src/utils/zod-validation-schema';
+import { ZodValidationSchemas } from '../utils/zod-validation-schema';
 import { schemaCreateUser } from './users.zod.schema';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 

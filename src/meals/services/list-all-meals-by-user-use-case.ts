@@ -6,7 +6,11 @@ export class ListAllMealsByUserUseCase {
 
     constructor(private readonly prismaMealsRepository: PrismaMealsRepository) {}
 
-    async execute() {
-        
+    async execute(userId: string) {
+        const listAll = await this.prismaMealsRepository.findAll(userId)
+
+        return {
+            listMeals: listAll
+        }
     }
 }

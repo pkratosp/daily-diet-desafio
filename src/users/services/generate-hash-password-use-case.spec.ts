@@ -16,5 +16,9 @@ describe('GenerateHashPasswordUseCase', () => {
     expect(service).toBeDefined();
   });
 
-  it.todo('should generate hash password')
+  it('should generate hash password', async () => {
+    const generateHash = await service.execute('password')
+
+    expect(generateHash).toEqual(expect.any(String))
+  })
 });
