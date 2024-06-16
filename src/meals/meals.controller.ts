@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, Response, UsePipes, InternalServerErrorException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, Response, UsePipes, InternalServerErrorException, BadRequestException } from '@nestjs/common';
 import { CreateMealDto } from './dto/create-meal.dto';
 import { UpdateMealDto } from './dto/update-meal.dto';
 
@@ -15,6 +15,7 @@ import { ZodValidationSchemas } from '../utils/zod-validation-schema';
 
 
 import { createNewMeal, schemaUpdateMeal } from './meals.zod.schema';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 @Controller('meals')
 export class MealsController {
@@ -100,7 +101,7 @@ export class MealsController {
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
   @UseGuards(AuthGuardToken)
-  @UsePipes(new ZodValidationSchemas(schemaUpdateMeal))
+  // @UsePipes(new ZodValidationSchemas(schemaUpdateMeal))
   async update(@Param('id') id: string, @Body() updateMealDto: UpdateMealDto, @Request() req) {
     try {
 
@@ -114,6 +115,15 @@ export class MealsController {
       }
 
     } catch (error) {
+
+      console.log(error)
+
+      if(error instanceof PrismaClientKnownRequestError) {
+        if(error.code === 'P2025') {
+          throw new BadRequestException('Registro não encontrado')
+        }
+      }
+
       if(error instanceof Error) {
         throw new InternalServerErrorException('Erro interno')
       }
