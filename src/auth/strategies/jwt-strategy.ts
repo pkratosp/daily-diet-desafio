@@ -19,24 +19,24 @@ export class JWTStrategy extends PassportStrategy(Strategy,'jwt') {
         private readonly validateUserUseCase: ValidateUserUseCase,
     ) {
         super({
-            secretOrKey: env.SECRET_TOKEN,
+            secretOrKey: env.SECRET_TOKEN_SUPABASE!,
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false
         })
     }
 
-    async validate(payload: UserType) {
+    async validate(payload: any) {
+        return true
 
+        // const validateUser = await this.validateUserUseCase.execute(payload.username)
 
-        const validateUser = await this.validateUserUseCase.execute(payload.username)
+        // if(!validateUser) {
+        //     throw new UnauthorizedException('token invalido')
+        // }
 
-        if(!validateUser) {
-            throw new UnauthorizedException('token invalido')
-        }
-
-        return {
-            validateUser
-        }
+        // return {
+        //     validateUser
+        // }
 
     }
 

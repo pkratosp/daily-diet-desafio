@@ -13,7 +13,10 @@ const envSchema = z.object({
     DATABASE_URL: z.string(),
     PORT: z.coerce.number(),
     HOST: z.string(),
+    PUBLIC_KEY_SUPABASE: z.string(),
     SECRET_TOKEN: z.string(),
+    URL_SUPABASE: z.string(),
+    SECRET_TOKEN_SUPABASE: z.string().optional()
 })
 
 const _env = envSchema.safeParse(process.env)

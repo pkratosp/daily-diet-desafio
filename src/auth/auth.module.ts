@@ -18,6 +18,8 @@ import { PrismaService } from '../lib/prisma.service';
 // strategies jwt
 import { JWTStrategy } from './strategies/jwt-strategy';
 import { AuthGuardToken } from './strategies/auth-guard-token';
+import { SignInSupabaseUseCase } from './services/sign-in-supabase-use-case';
+import { RefreshTokenSupaBaseUseCase } from './services/refresh-token-supabase-use-case';
 
 @Module({
   controllers: [AuthController],
@@ -28,6 +30,8 @@ import { AuthGuardToken } from './strategies/auth-guard-token';
     ValidateUserUseCase,
     JWTStrategy,
     AuthGuardToken,
+    SignInSupabaseUseCase,
+    RefreshTokenSupaBaseUseCase,
 
     PrismaUserRepository,
     PrismaService

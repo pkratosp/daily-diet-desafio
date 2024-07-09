@@ -71,6 +71,7 @@ export class MealsController {
       return list
 
     } catch (error) {
+      console.log(error)
       if(error instanceof Error) {
         throw new InternalServerErrorException('Erro interno')
       }

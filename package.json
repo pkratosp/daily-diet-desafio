@@ -20,7 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "kill:port": "kill-port --port 3333",
     "service:up": "npm run docker:compose -- up -d",
-    "docker:compose": "docker compose --env-file .env -f docker-compose.yml",
+    "docker:compose": "sudo docker compose --env-file .env -f docker-compose.yml",
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
     "clear:database": "ts-node prisma/clear-database.ts"
@@ -34,6 +34,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/platform-fastify": "^10.3.9",
     "@prisma/client": "^5.15.0",
+    "@supabase/supabase-js": "^2.44.3",
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",

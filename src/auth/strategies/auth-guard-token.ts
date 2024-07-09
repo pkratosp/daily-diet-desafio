@@ -20,7 +20,7 @@ export class AuthGuardToken implements CanActivate {
             const payload = await this.jwtService.verifyAsync(
                 token,
                 {
-                    secret: env.SECRET_TOKEN
+                    secret: env.SECRET_TOKEN_SUPABASE!
                 }
             )
 
